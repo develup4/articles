@@ -35,7 +35,7 @@
 
 ## Token Economy
 
-![Part1. 블록체인의 모든 것 - Google Drive.png](Bitcoin.GoogleDrive.png)
+![Part1. 블록체인의 모든 것 - Google Drive.png](Bitcoin/GoogleDrive.png)
 
 ## Blockchain Trilemma
 

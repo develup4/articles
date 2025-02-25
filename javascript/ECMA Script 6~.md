@@ -1,12 +1,7 @@
-# ECMA Script 6~
-
-생성일: 2023년 3월 14일 오후 9:37
-tags: ECMA Script, 자바스크립트
-
 # 현재 시간을 밀리초 단위로 바꾸기
 
 ```jsx
-+new Date();	// 1970년 이후로 지나간 밀리초
++new Date(); // 1970년 이후로 지나간 밀리초
 ```
 
 # 해당 값이 true인지 false인지 체크하기
@@ -14,8 +9,8 @@ tags: ECMA Script, 자바스크립트
 ```jsx
 var a = [];
 var b = NaN;
-!!a;	// true
-!!b;	// false
+!!a; // true
+!!b; // false
 ```
 
 # WeakSet, WeakMap
@@ -27,10 +22,10 @@ var b = NaN;
 객체의 모든 열거 가능한 문자열 속성(상속된 요소를 포함하여)을 반복한다.
 
 ```jsx
-const object = {a: 1, b: 2, c: 3};
+const object = { a: 1, b: 2, c: 3 };
 
 for (const property in object) {
-	console.log(`${property} ${object[property]}`);
+  console.log(`${property} ${object[property]}`);
 }
 ```
 
@@ -40,8 +35,8 @@ for (const property in object) {
 
 ```jsx
 for (const friend of friends) {
-	if (friend === "Dal") break;
-	console.log(friend);
+  if (friend === "Dal") break;
+  console.log(friend);
 }
 ```
 
@@ -51,12 +46,12 @@ for (const friend of friends) {
 
 ```jsx
 function* listPeople() {
-	yield "dal";
-	yield "flynn";
+  yield "dal";
+  yield "flynn";
 }
 
 const list = listPeople();
-console.log(list()) // 그냥 호출시 suspended 객체 리턴
+console.log(list()); // 그냥 호출시 suspended 객체 리턴
 list.next();
 list.next(); // yield로 반환되는 값과 마지막 yield인지 여부가 반환된다.
 ```
@@ -67,14 +62,14 @@ C#의 프로퍼티(Setter/Getter)와 같은 기능이다.
 
 ```jsx
 const user = {
-	name: "asdf",
-	age: 3
+  name: "asdf",
+  age: 3,
 };
 
 // 일반적으로 프록시 세계에서 아래와 같은 userFilter의 역할을 trap이라고 한다.
 const userFilter = {
-	get: (target, prop, receiver) => console.log("get!"),
-	set: (target, prop, receiver) => console.log("set!")
+  get: (target, prop, receiver) => console.log("get!"),
+  set: (target, prop, receiver) => console.log("set!"),
 };
 
 const filteredUser = new Proxy(user, userFilter);
@@ -91,8 +86,8 @@ filteredUser.age = 5;
 자주 사용할 일은 없지만, 정리하자면 Symbol은 `불변값`이다. 한 번 설정하면 그 값을 바꿀 수 없고 생성할 때마다 새로운 값이 생성된다. 자바스크립트 내부적인 구현에 자주 사용된다.
 
 ```jsx
-Symbol("creator") === Symbol("creator");	// false
-Symbol.for("creator") === Symbol.for("creator");	// true
+Symbol("creator") === Symbol("creator"); // false
+Symbol.for("creator") === Symbol.for("creator"); // true
 ```
 
 # Template literal
@@ -113,9 +108,7 @@ i **= 3;
 함수의 인자나 매개변수 마지막에 콤마를 붙여도 되게 되었다. 정말 편한 기능이고 Code Formatter 측에서도 엄청 좋아했을 것 같다.
 
 ```jsx
-function A(a, b, c, ) {
-
-}
+function A(a, b, c) {}
 ```
 
 # Rest
@@ -254,8 +247,8 @@ rename(user);
 
 ```jsx
 class Example {
-	static name = "exam";
-	year = 1994;
+  static name = "exam";
+  year = 1994;
 }
 ```
 
@@ -263,17 +256,15 @@ class Example {
 
 ```jsx
 function hello(msg) {
-	return function(target) {
-		target.hello = msg;
-	}
+  return function (target) {
+    target.hello = msg;
+  };
 }
 
 @hello("안녕")
-class Example {
+class Example {}
 
-}
-
-Example.hello;	// 안녕
+Example.hello; // 안녕
 ```
 
 # Object와 Array간 변환
@@ -336,7 +327,7 @@ if (lynn?.profile?.email?.provider)
 # Numeric separators
 
 ```jsx
-1_000_000.000_001 === 1000000.000001
+1_000_000.000_001 === 1000000.000001;
 ```
 
 # at
@@ -350,10 +341,10 @@ console.log(arr.at(-2));
 
 ```jsx
 try {
-	// 부가적인 정보를 전달할 수 있게 되었다. 오브젝트든 뭐든 전달이 가능하다.
-	throw new Error("DB fail", {cause: {error: "password", value: 1234}});
+  // 부가적인 정보를 전달할 수 있게 되었다. 오브젝트든 뭐든 전달이 가능하다.
+  throw new Error("DB fail", { cause: { error: "password", value: 1234 } });
 } catch (e) {
-	console.log(e.message, e.cause);
+  console.log(e.message, e.cause);
 }
 ```
 
@@ -363,10 +354,10 @@ try {
 
 ```jsx
 class Example {
-	name = "exam";	// 생성자없이 초기화되므로 생성자 필요없다. 그냥 Syntax Sugar이다.
-	#age = 28;	// #을 붙이면 private이 된다
+  name = "exam"; // 생성자없이 초기화되므로 생성자 필요없다. 그냥 Syntax Sugar이다.
+  #age = 28; // #을 붙이면 private이 된다
 
-	static description = "asfd";	// 스태틱 키워드도 추가되었다.
+  static description = "asfd"; // 스태틱 키워드도 추가되었다.
 }
 ```
 

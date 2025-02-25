@@ -1,15 +1,8 @@
-# 함수형 프로그래밍 with ES5
-
-생성일: 2023년 8월 24일 오후 5:34
-summary: 객체지향돌이도 점점 아름답게 느껴지는 FP
-tags: ECMA Script, 함수형 프로그래밍
-
 # 함수형 프로그래밍 개요
 
 ## 함수형 프로그래밍
 
 > 순수함수를 만들어 부수효과를 없애고 모듈화 수준을 높여 조합성을 강조하는 프로그래밍 패러다임
-> 
 
 ### 순수함수
 
@@ -29,60 +22,60 @@ tags: ECMA Script, 함수형 프로그래밍
 ```jsx
 /* 순수함수 */
 
-function add(a,b){
+function add(a, b) {
   return a + b;
 }
 
-console.log(add(10,2)); // 12
-console.log(add(10,2)); // 12
+console.log(add(10, 2)); // 12
+console.log(add(10, 2)); // 12
 
 /* 순수하지 않은 함수(1) */
 
 let c = 10;
 
-function add2(a,b){
+function add2(a, b) {
   return a + b + c;
 }
 
-console.log(add2(10,2)); // 22
+console.log(add2(10, 2)); // 22
 c = 20;
-console.log(add2(10,2)); // 32
+console.log(add2(10, 2)); // 32
 
 /* 순수하지 않은 함수(2) */
 
 let c = 10;
 
-function add3(a,b){
+function add3(a, b) {
   c = b;
   return a + b;
 }
 
 console.log(c); // 10
-console.log(add3(20,30)); // 50
+console.log(add3(20, 30)); // 50
 console.log(c); // 30
-console.log(add2(20,30)); // 50
+console.log(add2(20, 30)); // 50
 
 /* 순수하지 않은 함수(3) */
 
 let obj1 = { val: 10 };
 
-function add4(obj,b){
+function add4(obj, b) {
   obj.val += b;
 }
 
 console.log(obj1.val); // 10
-add4(obj1,20);
+add4(obj1, 20);
 console.log(obj1.val); // 30
 
 /* 다시 순수 함수 */
 let obj1 = { val: 10 };
 
-function add5(obj,b){
-  return { val: obj.val + b};
+function add5(obj, b) {
+  return { val: obj.val + b };
 }
 
 console.log(obj1.val); // 10
-let obj2 = add5(obj1,20);
+let obj2 = add5(obj1, 20);
 console.log(obj1.val); // 10
 console.log(obj2.val); // 30
 ```
@@ -90,29 +83,39 @@ console.log(obj2.val); // 30
 ## 일급함수, add_maker, 함수로 함수 실행하기
 
 ```jsx
-function add (a,b) {
+function add(a, b) {
   return a + b;
 }
 
 /* 일급 함수 : 함수를 값(변수,인자,반환값)으로 다룰 수 있음 */
-let f1 = function(a){ return a*a;};
+let f1 = function (a) {
+  return a * a;
+};
 
 let f2 = add;
 
-function f3(f){
+function f3(f) {
   return f();
 }
 
-console.log(f3(function(){ return 10;})); // 10
-console.log(f3(function(){ return 20;})); // 20
+console.log(
+  f3(function () {
+    return 10;
+  })
+); // 10
+console.log(
+  f3(function () {
+    return 20;
+  })
+); // 20
 
 /* add_maker */
 
-function add_maker(a){
+function add_maker(a) {
   // 클로저 : a 값을 외부에서 가져다 쓸 수 있음
-  return function(b){
+  return function (b) {
     return a + b;
-  }
+  };
 }
 
 let add10 = add_maker(10);
@@ -126,15 +129,23 @@ console.log(add15(10)); // 25
 
 /* 순수함수 조합 */
 
-function f4(f1,f2,f3){
+function f4(f1, f2, f3) {
   return f3(f1() + f2());
 }
 
-console.log(f4(
-  function () { return 2; },
-  function () { return 1; },
-  function (a) { return a * a; }
-));
+console.log(
+  f4(
+    function () {
+      return 2;
+    },
+    function () {
+      return 1;
+    },
+    function (a) {
+      return a * a;
+    }
+  )
+);
 ```
 
 # 함수형으로 전환하기
@@ -146,70 +157,70 @@ console.log(f4(
 
 ```jsx
 const users = [
-  {id:1,name:'ID',age:36},
-  {id:2,name:'BJ',age:32},
-  {id:3,name:'JM',age:32},
-  {id:4,name:'PJ',age:27},
-  {id:5,name:'HA',age:25},
-  {id:6,name:'JE',age:26},
-  {id:7,name:'JI',age:31},
-  {id:8,name:'MP',age:23},
+  { id: 1, name: "ID", age: 36 },
+  { id: 2, name: "BJ", age: 32 },
+  { id: 3, name: "JM", age: 32 },
+  { id: 4, name: "PJ", age: 27 },
+  { id: 5, name: "HA", age: 25 },
+  { id: 6, name: "JE", age: 26 },
+  { id: 7, name: "JI", age: 31 },
+  { id: 8, name: "MP", age: 23 },
 ];
 
 // 1. 명령형 코드
-	// 1. 30세 이상인 users를 거른다
+// 1. 30세 이상인 users를 거른다
 const answer = [];
-for(let i = 0; i < users.length; i += 1){
-  if(users[i].age >= 30){
-     answer.push(users[i]);
+for (let i = 0; i < users.length; i += 1) {
+  if (users[i].age >= 30) {
+    answer.push(users[i]);
   }
 }
-	// 2. 30세 이상인 users의 names를 수집한다
+// 2. 30세 이상인 users의 names를 수집한다
 const anwser = [];
-for(let i = 0; i < users.length; i+= 1){
-  if(users[i].age >= 30){
+for (let i = 0; i < users.length; i += 1) {
+  if (users[i].age >= 30) {
     answer.push(users[i].name);
   }
 }
-	// 3. 30세 미만인 users를 거른다
+// 3. 30세 미만인 users를 거른다
 const answer = [];
-for(let i = 0; i < users.length; i += 1){
-  	if(users[i].age < 30 ){
-      answer.push(users[i]);
-    }
+for (let i = 0; i < users.length; i += 1) {
+  if (users[i].age < 30) {
+    answer.push(users[i]);
+  }
 }
-	// 4. 30세 미만인 users의 ages를 수집한다
+// 4. 30세 미만인 users의 ages를 수집한다
 const answer = [];
-for(let i = 0; i < users.length; i += 1){
-  	if(users[i].age < 30){
-      	answer.push(users[i].age);
-    }
+for (let i = 0; i < users.length; i += 1) {
+  if (users[i].age < 30) {
+    answer.push(users[i].age);
+  }
 }
 
 // 2. _filter, _map으로 리팩토링 : 조건 필터링을 함수로 위임
-function _filter(arr,predi){
+function _filter(arr, predi) {
   const newArr = [];
-  _each(arr,(val)=>{
-  	if(predi(val)){
+  _each(arr, (val) => {
+    if (predi(val)) {
       newArr.push(val);
     }
   });
   return newArr;
 }
 
-function _map(arr,mapper){
+function _map(arr, mapper) {
   const newArr = [];
-  _each(arr,(val)=>{
+  _each(arr, (val) => {
     newArr.push(mapper(val));
   });
   return newArr;
 }
 
 // 3. _each 만들기
-function _each(arr, iter){
-	for(let i = 0; i < arr.length; i += 1){
-       iter(arr[i],i);
-    }
+function _each(arr, iter) {
+  for (let i = 0; i < arr.length; i += 1) {
+    iter(arr[i], i);
+  }
 }
 ```
 
@@ -263,25 +274,25 @@ _map(_filter(users,function(user){ return user.age < 30;}), _get('age'));
 ## reduce
 
 ```jsx
-const  slice = Array.prototype.slice;
-function _rest(list,num){
+const slice = Array.prototype.slice;
+function _rest(list, num) {
   return slice.call(list, num || 1);
 }
 
 // 4. _reduce 만들기
-function _reduce(list,iter,memo){
-  if(arguments.length === 2){
+function _reduce(list, iter, memo) {
+  if (arguments.length === 2) {
     memo = list[0];
-	list = _rest(list);
+    list = _rest(list);
   }
-  _each(list, function(val){
-  	memo = iter(memo,val);
+  _each(list, function (val) {
+    memo = iter(memo, val);
   });
   return memo;
 }
 ```
 
-## 파이프라인, _go, _pipe, 화살표 함수
+## 파이프라인, \_go, \_pipe, 화살표 함수
 
 ```jsx
 // 5. 파이프라인 만들기
@@ -352,42 +363,45 @@ _go(
 );
 ```
 
-## 다형성 높이기, _keys, 에러
+## 다형성 높이기, \_keys, 에러
 
 ```jsx
 // 6. _each의 외부 다형성 높이기
-	// 1. _each에 null 넣어도 에러 안나게
-    // try catch, typeof 체크하여 에러를 내는 대신 코드가 그대로 진행되도록 하는 방식 => lodash, backbone, sequelize 등이 쓰는 방식
-const _length = _get('length');
+// 1. _each에 null 넣어도 에러 안나게
+// try catch, typeof 체크하여 에러를 내는 대신 코드가 그대로 진행되도록 하는 방식 => lodash, backbone, sequelize 등이 쓰는 방식
+const _length = _get("length");
 
-function _each(list,iter){
- for(let i = 0, len = _length(list); i < len; i +=1){
-   iter(list[i]);
- }
+function _each(list, iter) {
+  for (let i = 0, len = _length(list); i < len; i += 1) {
+    iter(list[i]);
+  }
 }
-	// 2. _keys 만들기
-function _keys(obj){
- 	 return _is_object(obj) ? Object.keys(obj) : [];
-}
-
-	// 3. _keys에서도 _is_object인지 검사하여 null 에러 안 나게
-function _is_object(obj){
-  return (typeof obj === 'object' && !!obj);
+// 2. _keys 만들기
+function _keys(obj) {
+  return _is_object(obj) ? Object.keys(obj) : [];
 }
 
-	// 4. _each 외부 다형성 높이기
-function _each(list,iter){
- const keys = _keys(list);
- for(let i = 0; i < keys.length; i +=1){
-   iter(list[keys[i]]);
- }
+// 3. _keys에서도 _is_object인지 검사하여 null 에러 안 나게
+function _is_object(obj) {
+  return typeof obj === "object" && !!obj;
 }
 
-_each({
-  13: 'ID',
-  19: 'HD',
-  29: 'YD',
-}, console.log);
+// 4. _each 외부 다형성 높이기
+function _each(list, iter) {
+  const keys = _keys(list);
+  for (let i = 0; i < keys.length; i += 1) {
+    iter(list[keys[i]]);
+  }
+}
+
+_each(
+  {
+    13: "ID",
+    19: "HD",
+    29: "YD",
+  },
+  console.log
+);
 ```
 
 # 컬렉션 중심 프로그래밍
@@ -410,15 +424,15 @@ _each({
 
 ```jsx
 const users = [
-  { id: 10, name: 'ID', age: 36},
-  { id: 20, name: 'BJ', age: 32},
-  { id: 30, name: 'JM', age: 32},
-  { id: 40, name: 'PJ', age: 27},
-  { id: 50, name: 'HA', age: 25},
-  { id: 60, name: 'JE', age: 26},
-  { id: 70, name: 'JI', age: 31},
-  { id: 80, name: 'MP', age: 23},
-  { id: 90, name: 'FP', age: 13},
+  { id: 10, name: "ID", age: 36 },
+  { id: 20, name: "BJ", age: 32 },
+  { id: 30, name: "JM", age: 32 },
+  { id: 40, name: "PJ", age: 27 },
+  { id: 50, name: "HA", age: 25 },
+  { id: 60, name: "JE", age: 26 },
+  { id: 70, name: "JI", age: 31 },
+  { id: 80, name: "MP", age: 23 },
+  { id: 90, name: "FP", age: 13 },
 ];
 
 // 컬렉션 중심 프로그래밍의 유형별 함수 만들기
@@ -426,12 +440,12 @@ const users = [
 // 1. 수집하기 - map
 //	1. values
 
-function _identity(val){
+function _identity(val) {
   return val;
 }
 
-function _values(data){
-  return _map(data,_identity);
+function _values(data) {
+  return _map(data, _identity);
 }
 
 // curryr로 확장시킨 _map함수
@@ -441,11 +455,11 @@ _values(users[0]);
 //	2. pluck - 특정 key에 해당하는 값들을 수집
 //           서버, 데이터베이스 등 where, in과 함께 많이 사용
 
-function _pluck(data,key){
-    return _map(_get(key))(data);
+function _pluck(data, key) {
+  return _map(_get(key))(data);
 }
 
-_pluck(users,'age'); // [33,22,11,...]
+_pluck(users, "age"); // [33,22,11,...]
 ```
 
 ## 거르기 - reject, compact
@@ -481,35 +495,40 @@ console.log(
 // 3. 찾아내기 - find
 
 //	1. find 만들기 - 처음으로 true인 값을 반환
-const _find = _curryr((list,predi) => {
+const _find = _curryr((list, predi) => {
   const keys = _keys(list);
-  for(let i = 0,len = keys.length; i < len; i += 1){
+  for (let i = 0, len = keys.length; i < len; i += 1) {
     const val = list[keys[i]];
-   	if(predi(val)) return val;
+    if (predi(val)) return val;
   }
 });
 
-_go(users,_find((user)=>user.id === 50), _get('name'),console.log);
+_go(
+  users,
+  _find((user) => user.id === 50),
+  _get("name"),
+  console.log
+);
 
 //	2. find_index
 
-const _find_index = curryr((list,predi) => {
+const _find_index = curryr((list, predi) => {
   const keys = _keys(list);
-  for(let i = 0,len = keys.length; i < len; i += 1){
-   	if(predi(list[keys[i]])) return i;
+  for (let i = 0, len = keys.length; i < len; i += 1) {
+    if (predi(list[keys[i]])) return i;
   }
   return -1;
 });
 // 	3. some - 조건 하나라도 만족하면 true
 
-function some(list,predi){
-  return _find_index(list,predi || _identity) !== -1;
+function some(list, predi) {
+  return _find_index(list, predi || _identity) !== -1;
 }
 
 //	4. every - 조건 모두가 만족하면 true
 
-function every(list,predi){
-  return _find_index(list,_negate(predi || _identity)) === -1;
+function every(list, predi) {
+  return _find_index(list, _negate(predi || _identity)) === -1;
 }
 ```
 
@@ -675,23 +694,23 @@ _go(users,_filter(user => user.age > 10), printCountByAge);
 
 ```jsx
 // 지연 평가를 시작시키고 유지시키는(이어 가는) 함수
-	// 1. map
-	// 2. filter, reject
+// 1. map
+// 2. filter, reject
 
 // 끝을 내는 함수
-	// 1. take
-	// 2. some, every, find
+// 1. take
+// 2. some, every, find
 
 let mi = 0;
 let fi = 0;
 
 _go(
   _.range(100),
-  _.map(function(val){
+  _.map(function (val) {
     ++mi;
     return val * val;
   }),
-  _.filter(function(val){
+  _.filter(function (val) {
     ++fi;
     return val % 2;
   }),
@@ -699,24 +718,24 @@ _go(
   console.log
 );
 
-console.log(mi,fi); // 100 100
+console.log(mi, fi); // 100 100
 
 // 한 개의 값을 map, filter, take 함수에 넣어 값 측정 과정 반복해서 5개 모이면 종료
 _.go(
   _.range(100),
-  L.map(function(val){
+  L.map(function (val) {
     ++mi;
     return val * val;
   }),
-  L.filter(function(val){
+  L.filter(function (val) {
     ++fi;
     return val % 2;
   }),
   L.some((val) => val > 100),
-    console.log
+  console.log
 );
 
-console.log(mi,fi); // 12 12
+console.log(mi, fi); // 12 12
 ```
 
 ## 요약
@@ -724,9 +743,9 @@ console.log(mi,fi); // 12 12
 1. 함수를 되도록 **작게** 만들기
 2. **다형성** 높은 함수 만들기 with 보조 함수
 3. **상태**를 변경하지 않거나 **정확히** 다루어 **부수 효과를 최소화** 하기
-    - 부수효과는 있을 수 밖에 없음. 결국엔 브라우저에 반영해야하기 때문.
-    - 부수효과는 최종 결과/목적
-    - 부수효과 가기 전에는 상태를 변경하지 않는 식으로 프로그래밍
+   - 부수효과는 있을 수 밖에 없음. 결국엔 브라우저에 반영해야하기 때문.
+   - 부수효과는 최종 결과/목적
+   - 부수효과 가기 전에는 상태를 변경하지 않는 식으로 프로그래밍
 4. 동일한 인자를 받으면 항상 동일한 결과를 리턴하는 순수 함수 만들기
 5. 복잡한 객체 하나를 인자로 사용하기보다 되도록 일반적인 값 여러 개를 인자로 사용하기
 6. 큰 로직을 **고차 함수**로 만들고 세부 로직을 **보조함수**로 완성하기
@@ -981,11 +1000,12 @@ const products = [
     is_selected: true, // <--- 장바구니에서 체크 박스 선택
     name: "반팔티",
     price: 10000, // <--- 기본 가격
-    sizes: [ // <---- 장바구니에 담은 동일 상품의 사이즈 별 수량과 가격
+    sizes: [
+      // <---- 장바구니에 담은 동일 상품의 사이즈 별 수량과 가격
       { name: "L", quantity: 4, price: 0 },
       { name: "XL", quantity: 2, price: 0 },
       { name: "2XL", quantity: 3, price: 2000 }, // <-- 옵션의 추가 가격
-    ]
+    ],
   },
   {
     is_selected: true,
@@ -994,92 +1014,70 @@ const products = [
     sizes: [
       { name: "L", quantity: 2, price: -1000 },
       { name: "2XL", quantity: 4, price: 2000 },
-    ]
+    ],
   },
   {
     is_selected: false,
     name: "맨투맨",
     price: 16000,
-    sizes: [
-      { name: "L", quantity: 10, price: 0 }
-    ]
-  }
+    sizes: [{ name: "L", quantity: 10, price: 0 }],
+  },
 ];
 
 // 1. 모든 수량
 
-const total_quantity = _.reduce(function(tq,product){
-  	return _.reduce(product.sizes,(tq,size)=> tq + size.quantity,tq);
-},0);
+const total_quantity = _.reduce(function (tq, product) {
+  return _.reduce(product.sizes, (tq, size) => tq + size.quantity, tq);
+}, 0);
 
-_.go(products,
-  total_quantity,
-  console.log
-);
+_.go(products, total_quantity, console.log);
 
 // 2. 선택된 총 수량
 
-_.go(products,
-  _filter(_.get('is_selected')),
-  total_quantity,
-  console.log
-);
+_.go(products, _filter(_.get("is_selected")), total_quantity, console.log);
 
 // 3. 모든 가격
 
-const total_price = _.reduce(function(tp,product){
-  	return _.reduce(product.sizes, (tp, size) => (tp + size.quantity * (product.price + size.price)), tp);
+const total_price = _.reduce(function (tp, product) {
+  return _.reduce(
+    product.sizes,
+    (tp, size) => tp + size.quantity * (product.price + size.price),
+    tp
+  );
 });
 
-_.go(products,
-  total_price,
-  console.log
-);
+_.go(products, total_price, console.log);
 
 // 4. 선택된 총 가격
 
-_.go(products,
-  _filter(_.get('is_selected')),
-  total_price,
-  console.log
-);
+_.go(products, _filter(_.get("is_selected")), total_price, console.log);
 ```
 
 # 비동기
 
 ```jsx
-function square(a){
-  return new Promise(function(resolve){
-    setTimeout(function(){
+function square(a) {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
       resolve(a * a);
     }, 500);
   });
 }
 
-square(10)
-  .then(square)
-  .then(square)
-  .then(square)
-  .then(console.log);
+square(10).then(square).then(square).then(square).then(console.log);
 
-_.go(square(10),
-     square,
-     square,
-     square,
-     console.log);
+_.go(square(10), square, square, square, console.log);
 
-const list = [2,3,4];
-new Promise(function(resolve){
-  (function recur(res){
-    if(list.length === res.length) return resolve(res);
-    square(list[res.length]).then(function(val){
+const list = [2, 3, 4];
+new Promise(function (resolve) {
+  (function recur(res) {
+    if (list.length === res.length) return resolve(res);
+    square(list[res.length]).then(function (val) {
       res.push(val);
       recur(res);
     });
-  })([])
+  })([]);
 }).then(console.log);
 
-_.go(list,
-   _.map(square),
-   console.log);
+_.go(list, _.map(square), console.log);
 ```

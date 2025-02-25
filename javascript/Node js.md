@@ -1,11 +1,5 @@
 # Node.js
 
-생성일: 2023년 3월 14일 오후 11:47
-summary: node.js는 웹 서버가 아니라 자바스크립트 런타임이다
-tags: Node.js, 자바스크립트
-
-# Node.js
-
 ## Node.js란 무엇인가?
 
 Node.js(이하 노드)는 **Chrome V8 Javascript 엔진으로 빌드된 Javascript 런타임**이다. 런타임이란 **특정 언어로 만든 프로그램들을 실행할 수 있는 환경**을 의미한다. 노드의 주된 쓰임이 서버 어플리케이션 개발이라 오해가 있지만 기본적으로 노드는 자바스크립트 어플리케이션을 실행하기 위한 환경이다.
@@ -91,7 +85,7 @@ module.exports = checkOdd;
 - clearInterval(아이디)
 - clearImmediate(아이디)
 
-### __filename, __dirname
+### **filename, **dirname
 
 현재 파일의 경로와 파일명을 제공하는 키워드이다.
 
@@ -137,32 +131,38 @@ path.sep: 경로의 구분자입니다. 윈도는 \, POSIX는 /입니다.
 
 Note ≡ join과 resolve의 차이
 path.join과 path.resolve 메서드는 비슷해 보이지만 동작 방식이 다릅니다. /를 만나면 path.resolve는 절대경로로 인식해서 앞의 경로를 무시하고, path.join은 상대경로로 처리합니다. 코드로 보면 이해하기 쉽습니다.
-path.join('/a', '/b', 'c');  /*  결과 : /a/b/c/ */
-path.resolve('/a', '/b', 'c');  /*  결과 : /b/c */
+path.join('/a', '/b', 'c'); /_ 결과 : /a/b/c/ _/
+path.resolve('/a', '/b', 'c'); /_ 결과 : /b/c _/
 
 ### url 모듈과 querystring 모듈
 
 ```jsx
-const url = require('url');
+const url = require("url");
 
 const { URL } = url;
-const myURL = new URL('<http://www.gilbut.co.kr/book/bookList.aspx?sercate1=001001000#anchor>');
-console.log('new URL():', myURL);
-console.log('url.format():', url.format(myURL));
-console.log('------------------------------');
-const parsedUrl = url.parse('<http://www.gilbut.co.kr/book/bookList.aspx?sercate1=001001000#anchor>');
-console.log('url.parse():', parsedUrl);
-console.log('url.format():', url.format(parsedUrl));
+const myURL = new URL(
+  "<http://www.gilbut.co.kr/book/bookList.aspx?sercate1=001001000#anchor>"
+);
+console.log("new URL():", myURL);
+console.log("url.format():", url.format(myURL));
+console.log("------------------------------");
+const parsedUrl = url.parse(
+  "<http://www.gilbut.co.kr/book/bookList.aspx?sercate1=001001000#anchor>"
+);
+console.log("url.parse():", parsedUrl);
+console.log("url.format():", url.format(parsedUrl));
 ```
 
 ```jsx
-const url = require('url');
-const querystring = require('querystring');
+const url = require("url");
+const querystring = require("querystring");
 
-const parsedUrl = url.parse('<http://www.gilbut.co.kr/?page=3&limit=10&category=nodejs&category=javascript>');
+const parsedUrl = url.parse(
+  "<http://www.gilbut.co.kr/?page=3&limit=10&category=nodejs&category=javascript>"
+);
 const query = querystring.parse(parsedUrl.query);
-console.log('querystring.parse():', query);
-console.log('querystring.stringify():', querystring.stringify(query));
+console.log("querystring.parse():", query);
+console.log("querystring.stringify():", querystring.stringify(query));
 ```
 
 ### 워커 스레드
@@ -170,20 +170,19 @@ console.log('querystring.stringify():', querystring.stringify(query));
 노드에서 멀티 스레드 방식으로 작업하는 방법이다.
 
 ```jsx
-const {
-  Worker, isMainThread, parentPort,
-} = require('worker_threads');
+const { Worker, isMainThread, parentPort } = require("worker_threads");
 
-if (isMainThread) { // 부모일 때
-  const
-  worker = new Worker(__filename);
-  worker.on('message', message => console.log('from worker', message));
-  worker.on('exit', () => console.log('worker exit'));
-  worker.postMessage('ping');
-} else { // 워커일 때
-  parentPort.on('message', (value) => {
-    console.log('from parent', value);
-    parentPort.postMessage('pong');
+if (isMainThread) {
+  // 부모일 때
+  const worker = new Worker(__filename);
+  worker.on("message", (message) => console.log("from worker", message));
+  worker.on("exit", () => console.log("worker exit"));
+  worker.postMessage("ping");
+} else {
+  // 워커일 때
+  parentPort.on("message", (value) => {
+    console.log("from parent", value);
+    parentPort.postMessage("pong");
     parentPort.close();
   });
 }
@@ -192,15 +191,15 @@ if (isMainThread) { // 부모일 때
 ### child_process 모듈을 이용하여 파이썬 코드 실행하기
 
 ```jsx
-const spawn = require('child_process').spawn;
+const spawn = require("child_process").spawn;
 
-var process = spawn('python', ['test.py']);
+var process = spawn("python", ["test.py"]);
 
-process.stdout.on('data', function(data) {
+process.stdout.on("data", function (data) {
   console.log(data.toString());
 }); // 실행 결과
 
-process.stderr.on('data', function(data) {
+process.stderr.on("data", function (data) {
   console.error(data.toString());
 }); // 실행 >에러
 ```
@@ -210,26 +209,30 @@ process.stderr.on('data', function(data) {
 - 버퍼와 스트림
 
 ```jsx
-const buffer = Buffer.from('저를 버퍼로 바꿔보세요');
-console.log('from():', buffer);
-console.log('length:', buffer.length);
-console.log('toString():', buffer.toString());
+const buffer = Buffer.from("저를 버퍼로 바꿔보세요");
+console.log("from():", buffer);
+console.log("length:", buffer.length);
+console.log("toString():", buffer.toString());
 
-const array = [Buffer.from('띄엄 '), Buffer.from('띄엄 '), Buffer.from('띄어쓰기')];
+const array = [
+  Buffer.from("띄엄 "),
+  Buffer.from("띄엄 "),
+  Buffer.from("띄어쓰기"),
+];
 const buffer2 = Buffer.concat(array);
-console.log('concat():', buffer2.toString());
+console.log("concat():", buffer2.toString());
 
 const buffer3 = Buffer.alloc(5);
-console.log('alloc():', buffer3);
+console.log("alloc():", buffer3);
 ```
 
 ```jsx
-const zlib = require('zlib');
-const fs = require('fs');
+const zlib = require("zlib");
+const fs = require("fs");
 
-const readStream = fs.createReadStream('./readme4.txt');
+const readStream = fs.createReadStream("./readme4.txt");
 const zlibStream = zlib.createGzip();
-const writeStream = fs.createWriteStream('./readme4.txt.gz');
+const writeStream = fs.createWriteStream("./readme4.txt.gz");
 readStream.pipe(zlibStream).pipe(writeStream);
 ```
 
@@ -253,42 +256,42 @@ events 모듈을 사용하면 됩니다. myEvent라는 객체를 먼저 만듭�
 - listenerCount(이벤트명): 현재 리스너가 몇 개 연결되어 있는지 확인합니다.
 
 ```jsx
-const EventEmitter = require('events');
+const EventEmitter = require("events");
 
 const myEvent = new EventEmitter();
-myEvent.addListener('event1', () => {
-  console.log('이벤트 1');
+myEvent.addListener("event1", () => {
+  console.log("이벤트 1");
 });
-myEvent.on('event2', () => {
-  console.log('이벤트 2');
+myEvent.on("event2", () => {
+  console.log("이벤트 2");
 });
-myEvent.on('event2', () => {
-  console.log('이벤트 2 추가');
+myEvent.on("event2", () => {
+  console.log("이벤트 2 추가");
 });
-myEvent.once('event3', () => {
-  console.log('이벤트 3');
+myEvent.once("event3", () => {
+  console.log("이벤트 3");
 }); // 한 번만 실행됨
 
-myEvent.emit('event1'); // 이벤트 호출
-myEvent.emit('event2'); // 이벤트 호출
+myEvent.emit("event1"); // 이벤트 호출
+myEvent.emit("event2"); // 이벤트 호출
 
-myEvent.emit('event3'); // 이벤트 호출
-myEvent.emit('event3'); // 실행 안 됨
+myEvent.emit("event3"); // 이벤트 호출
+myEvent.emit("event3"); // 실행 안 됨
 
-myEvent.on('event4', () => {
-  console.log('이벤트 4');
+myEvent.on("event4", () => {
+  console.log("이벤트 4");
 });
-myEvent.removeAllListeners('event4');
-myEvent.emit('event4'); // 실행 안 됨
+myEvent.removeAllListeners("event4");
+myEvent.emit("event4"); // 실행 안 됨
 
 const listener = () => {
-  console.log('이벤트 5');
+  console.log("이벤트 5");
 };
-myEvent.on('event5', listener);
-myEvent.removeListener('event5', listener);
-myEvent.emit('event5'); // 실행 안 됨
+myEvent.on("event5", listener);
+myEvent.removeListener("event5", listener);
+myEvent.emit("event5"); // 실행 안 됨
 
-console.log(myEvent.listenerCount('event2'));
+console.log(myEvent.listenerCount("event2"));
 ```
 
 ### 예외 처리하기
@@ -298,16 +301,16 @@ console.log(myEvent.listenerCount('event2'));
 try~catch가 에러처리의 기본이다. 하지만 최후의 수단으로 처리되지 못한 에러를 처리하는 방법이 uncaughtException 처리이다. 다만 권장되지 않는 방법으로 단순 에러내용을 기록하고 process.exit()으로 프로세스를 종료하는 것이 좋다. 대신 운영중인 서버가 에러로 인해 종료되었을 때 자동으로 재시작하도록 운영하도록 하자.
 
 ```jsx
-process.on('uncaughtException', (err) => {
-  console.error('예기치 못한 에러', err);
+process.on("uncaughtException", (err) => {
+  console.error("예기치 못한 에러", err);
 });
 
 setInterval(() => {
-  throw new Error('서버를 고장내주마!');
+  throw new Error("서버를 고장내주마!");
 }, 1000);
 
 setTimeout(() => {
-  console.log('실행됩니다');
+  console.log("실행됩니다");
 }, 2000);
 ```
 

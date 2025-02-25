@@ -1,8 +1,3 @@
-# OOP로서의 자바스크립트
-
-생성일: 2023년 3월 14일 오후 9:42
-tags: 객체지향, 자바스크립트
-
 # OOP in JavaScript
 
 ### Object Prototypes

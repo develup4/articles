@@ -1,8 +1,3 @@
-# Asynchronous in 자바스크립트
-
-생성일: 2023년 3월 14일 오후 9:43
-tags: 비동기, 자바스크립트
-
 # What is promise
 
 Promise는 이전 작업이 완료될 때까지 다음 작업을 연기시키거나, 작업 실패를 대응할 수 있는 기능이다. Promise는 **비동기 작업 순서가 정확하게 작동**되게 도움을 준다. Promise는 **어떤 작업의 중간 상태를 나타내는 오브젝트**이다.
@@ -11,9 +6,9 @@ Promise는 이전 작업이 완료될 때까지 다음 작업을 연기시키거
 
 - Promise가 생성되면 그 상태는 성공도 실패도 아닌 `pending` 상태라고 부른다.
 - Promise 결과가 반환되면 결과에 상관없이 `resolved` 상태라고 부른다.
-    - 성공적으로 처리된 Promise는 `fulfilled` 상태이다. 이 상태가 되면 Promise 체인의 다음 `.then()` 블럭에서 사용할 수 있는 Promise 값을 반환한다.
-    - 실패한 Promise는 `rejected` 상태이다. 에러 메시지를 포함한 결과가 반환된다. Promise 체이닝의 제일 마지막 `.catch()`에서 상세한 에러 메시지를 확인할 수 있다.
-    - Promise의 결과가 fulfilled인지 rejected인지 관계없이 최종 코드 블럭을 실행하려는 경우 `.finally()` 메서드를 사용할 수 있다.
+  - 성공적으로 처리된 Promise는 `fulfilled` 상태이다. 이 상태가 되면 Promise 체인의 다음 `.then()` 블럭에서 사용할 수 있는 Promise 값을 반환한다.
+  - 실패한 Promise는 `rejected` 상태이다. 에러 메시지를 포함한 결과가 반환된다. Promise 체이닝의 제일 마지막 `.catch()`에서 상세한 에러 메시지를 확인할 수 있다.
+  - Promise의 결과가 fulfilled인지 rejected인지 관계없이 최종 코드 블럭을 실행하려는 경우 `.finally()` 메서드를 사용할 수 있다.
 
 ### Promise API
 
@@ -48,8 +43,8 @@ motherPromise
 const motherPromise = Promise.race([p1, p2, p3]);
 
 motherPromise
-	.then((value) => console.log(value))
-	.catch((err) => console.log(err));   // p1, p2, p3중하나라도 리젝되면 여기로
+  .then((value) => console.log(value))
+  .catch((err) => console.log(err)); // p1, p2, p3중하나라도 리젝되면 여기로
 ```
 
 ### Custom Promise
